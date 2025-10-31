@@ -1,0 +1,39 @@
+# sensor_data.py
+# Author: Riyaz Shaikh
+# Description: Read sensor log, process data, and visualize Temperature & Humidity
+
+import matplotlib.pyplot as plt
+
+# Create empty lists
+temps = []
+hums = []
+
+# Read the sensor log file
+with open("sensor_log.txt", "r") as file:
+    for line in file:
+        line = line.strip()
+        if line.startswith("TEMP:"):
+            value = float(line.split(":")[1])
+            temps.append(value)
+        elif line.startswith("HUM:"):
+            value = float(line.split(":")[1])
+            hums.append(value)
+
+# Display data in console
+print("Temperature readings:", temps)
+print("Humidity readings:", hums)
+print(f"Average Temperature: {sum(temps)/len(temps):.2f} °C")
+print(f"Average Humidity: {sum(hums)/len(hums):.2f} %")
+
+# Visualization
+time = list(range(1, len(temps) + 1))
+
+plt.plot(time, temps, marker='o', color='r', label='Temperature (°C)')
+plt.plot(time, hums, marker='s', color='b', label='Humidity (%)')
+plt.title("Sensor Data Visualization")
+plt.xlabel("Reading Number")
+plt.ylabel("Value")
+plt.legend()
+plt.grid(True)
+plt.show()
+
